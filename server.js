@@ -308,7 +308,6 @@ app.get('*', (req, res, next) => {
   res.sendFile(path.join(APP_ROOT, 'index.html'));
 });
 
-// ======== START ========
 initDB()
   .then(() => app.listen(PORT, () => console.log(`EstateCore API running on port ${PORT}`)))
   .catch(err => { console.error('DB init failed:', err); process.exit(1); });
