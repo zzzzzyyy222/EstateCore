@@ -1,16 +1,10 @@
-﻿/* ========================================
-   EstateCore - App Logic
-   ======================================== */
-
-// ======== APP CONFIG ========
-const APP_CONFIG = window.__ESTATECORE_CONFIG__ || {};
+﻿const APP_CONFIG = window.__ESTATECORE_CONFIG__ || {};
 const API_BASE = APP_CONFIG.apiBase || '';
 const GOOGLE_MAPS_API_KEY = APP_CONFIG.googleMapsApiKey || '';
 let googleMap = null;
 let googleInfoWindow = null;
 let googleMarkers = new Map();
 
-// ======== DATA STORE ========
 const DB = {
   users: [
     { id: 1, name: 'Admin User', email: 'admin@demo.com', password: 'any', role: 'admin', phone: '+60 12-345 6789', joined: '2024-01-15' },
@@ -56,7 +50,6 @@ const DB = {
     { id:36, title:'Kepong Metro Prima Apartment', type:'Apartment', listingType:'rent', price:1600, location:'Kepong', city:'Kuala Lumpur', beds:3, baths:2, size:900, amenities:['Parking','Security','Near Transit'], desc:'Budget-friendly apartment near shops, schools, and transit options.', agent:'Mei Ling', agentId:2, rating:4.1, reviews:[], status:'active', featured:false, emoji:'🏬', lat:3.2140, lng:101.6365 },  ]
 };
 
-// ======== STATE ========
 let state = {
   currentUser: null,
   favorites: [],
@@ -96,7 +89,6 @@ async function hydrateListings() {
   }
 }
 
-// ======== INIT ========
 document.addEventListener('DOMContentLoaded', async () => {
   loadFromStorage();
   await hydrateListings();
@@ -230,7 +222,6 @@ function renderAll() {
   updateCompareUI();
 }
 
-// ======== PAGE NAVIGATION ========
 function showPage(page) {
   document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
   const el = document.getElementById('page-' + page);
@@ -337,7 +328,7 @@ function loginAs(user, save = true) {
   document.getElementById('userAvatar').textContent = user.name[0].toUpperCase();
   document.getElementById('dropdownName').textContent = user.name;
   document.getElementById('dropdownRole').textContent = capitalize(user.role);
-  // role-specific UI
+
   const agentOnly = document.querySelectorAll('.agent-only');
   agentOnly.forEach(el => el.classList.toggle('hidden', user.role === 'buyer'));
   if (save) saveToStorage();
@@ -360,7 +351,6 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.user-menu')) closeUserDropdown();
 });
 
-// ======== LISTINGS ========
 function getFilteredListings() {
   const f = state.filters;
   let list = DB.listings.filter(l => l.status !== 'removed');
@@ -512,7 +502,6 @@ function updateTypeCounts() {
   });
 }
 
-// ======== HERO SEARCH ========
 function heroSearchGo() {
   const q = document.getElementById('heroSearch').value.trim();
   const type = document.getElementById('heroType').value;
@@ -537,7 +526,6 @@ function filterByType(type) {
   renderListings();
 }
 
-// ======== PROPERTY DETAIL ========
 function openDetail(id) {
   const l = DB.listings.find(x => x.id === id);
   if (!l) return;
@@ -661,7 +649,6 @@ async function confirmSchedule() {
   }
 }
 
-// ======== FAVORITES ========
 function toggleFav(id, btn) {
   const idx = state.favorites.indexOf(id);
   if (idx > -1) { state.favorites.splice(idx, 1); if(btn){btn.textContent='♡';btn.classList.remove('active');} showToast('Removed from saved properties', 'info'); }
@@ -690,7 +677,6 @@ function renderFavorites() {
   else { empty.classList.add('hidden'); grid.innerHTML = favListings.map(l => renderCard(l)).join(''); }
 }
 
-// ======== COMPARE ========
 function toggleCompare(id, btn) {
   const idx = state.compareList.indexOf(id);
   if (idx > -1) {
@@ -747,7 +733,7 @@ function openCompare() {
     listings.forEach(l => { html += `<td>${fmt ? fmt(l[key]) : l[key]}</td>`; });
     html += '</tr>';
   });
-  // Amenities comparison
+
   html += `<tr><td style="font-size:0.78rem;color:var(--text2);text-align:left;font-weight:500">Amenities</td>`;
   listings.forEach(l => { html += `<td style="font-size:0.75rem">${l.amenities.join(', ')}</td>`; });
   html += '</tr></tbody></table></div>';
@@ -755,7 +741,6 @@ function openCompare() {
   document.getElementById('compareModal').classList.remove('hidden');
 }
 
-// ======== MAP ========
 function renderMapPins() {
   const container = document.getElementById('mapPinsContainer');
   if (!container) return;
@@ -825,8 +810,6 @@ function filterMapPins() {
   });
 }
 
-
-// ======== ADD LISTING ========
 async function submitListing() {
   if (!state.currentUser) { openAuth(); return; }
   const title = document.getElementById('newTitle').value.trim();
@@ -865,7 +848,6 @@ async function submitListing() {
   }
 }
 
-// ======== PROFILE ========
 function renderProfile() {
   if (!state.currentUser) return;
   const u = state.currentUser;
@@ -889,7 +871,6 @@ function saveProfile() {
   saveToStorage();
 }
 
-// ======== MORTGAGE CALCULATOR ========
 function calcMortgage() {
   const price = Number(document.getElementById('calcPrice')?.value) || 500000;
   const downPct = Number(document.getElementById('calcDown')?.value) || 10;
@@ -908,10 +889,8 @@ function calcMortgage() {
   if(document.getElementById('calcTotal')) document.getElementById('calcTotal').textContent = `RM ${totalPaid.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
 }
 
-// ======== MOBILE NAV ========
 function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('hidden'); }
 
-// ======== TOAST ========
 let toastTimer;
 function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
