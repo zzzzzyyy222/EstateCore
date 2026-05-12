@@ -19,7 +19,6 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
-// ======== DB SETUP ========
 async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -88,7 +87,6 @@ async function initDB() {
     `);
   }
 
-  // Seed demo listings if empty
   const { rowCount: lCount } = await pool.query('SELECT 1 FROM listings LIMIT 1');
   if (lCount === 0) {
     const seed = [
@@ -143,7 +141,6 @@ async function initDB() {
   console.log('Database ready.');
 }
 
-// ======== HELPERS ========
 function rowToListing(r) {
   return {
     id: r.id, title: r.title, type: r.type, listingType: r.listing_type,
