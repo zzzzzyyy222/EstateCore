@@ -1,7 +1,3 @@
-﻿/* ========================================
-   ESTATECORE PROPERTY PLATFORM
-   ======================================== */
-
 :root {
   --bg: #0a0a0f;
   --bg2: #111118;
@@ -43,14 +39,10 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 300; }
 h1 em, h2 em, h3 em { font-style: italic; color: var(--gold); }
 .mono { font-family: 'Space Mono', monospace; }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
 ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 10px; }
 
-/* ========================================
-   HEADER
-   ======================================== */
 #mainHeader {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: rgba(10,10,15,0.92);
@@ -92,9 +84,6 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--gold); }
 }
 .mobile-nav a { color: var(--text2); text-decoration: none; padding: 10px 0; font-size: 0.9rem; border-bottom: 1px solid var(--border); }
 
-/* ========================================
-   BUTTONS
-   ======================================== */
 .btn-primary {
   background: var(--gold);
   color: #0a0a0f;
@@ -132,9 +121,6 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--gold); }
 .btn-accent.large { padding: 14px 32px; font-size: 1rem; }
 .btn-accent.small, .btn-ghost.small { padding: 6px 14px; font-size: 0.8rem; }
 
-/* ========================================
-   FORMS & INPUTS
-   ======================================== */
 .form-input {
   width: 100%; padding: 11px 14px;
   background: var(--surface); border: 1px solid var(--border2);
@@ -157,9 +143,6 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--gold); }
 input[type="range"] { accent-color: var(--gold); padding: 5px 0; }
 input[type="checkbox"] { accent-color: var(--gold); }
 
-/* ========================================
-   MODALS
-   ======================================== */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,0.75);
@@ -224,9 +207,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 }
 .role-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(201,169,110,0.08); }
 
-/* ========================================
-   USER MENU
-   ======================================== */
 .user-menu { position: relative; }
 .user-avatar {
   width: 36px; height: 36px; border-radius: 50%;
@@ -256,9 +236,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .dropdown-role { font-size: 0.75rem; color: var(--text3); padding: 0 10px 6px; }
 .logout-link { color: var(--red) !important; }
 
-/* ========================================
-   HERO
-   ======================================== */
 .hero {
   min-height: 100vh; position: relative; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
@@ -337,9 +314,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 }
 .hero-tags span:hover { background: rgba(201,169,110,0.1); border-color: var(--gold); color: var(--gold); }
 
-/* ========================================
-   STATS BAR
-   ======================================== */
 .stats-bar {
   background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
   display: flex; justify-content: center; gap: 0;
@@ -352,9 +326,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .stat-item strong { display: block; font-size: 1.8rem; font-family: 'Cormorant Garamond', serif; color: var(--gold); margin-bottom: 4px; }
 .stat-item span { font-size: 0.78rem; color: var(--text2); letter-spacing: 0.5px; text-transform: uppercase; }
 
-/* ========================================
-   SECTIONS
-   ======================================== */
 .section-pad { padding: 80px 24px; max-width: 1400px; margin: 0 auto; }
 .dark-section { background: var(--bg2); max-width: 100%; padding: 80px 0; }
 .dark-section > * { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
@@ -372,7 +343,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .view-all { color: var(--gold); text-decoration: none; font-size: 0.85rem; }
 .view-all:hover { color: var(--gold2); }
 
-/* TYPE GRID */
 .type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .type-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -384,7 +354,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .type-name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; }
 .type-count { font-size: 0.8rem; color: var(--text3); }
 
-/* CTA SECTION */
 .cta-section {
   background: linear-gradient(135deg, rgba(201,169,110,0.1) 0%, rgba(79,156,249,0.05) 100%);
   border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -393,9 +362,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .cta-inner h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); margin-bottom: 12px; }
 .cta-inner p { color: var(--text2); margin-bottom: 28px; font-size: 1rem; }
 
-/* ========================================
-   PROPERTY CARDS
-   ======================================== */
 .listings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -471,14 +437,10 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .agent-name-sm { font-size: 0.78rem; color: var(--text2); flex: 1; }
 .card-rating { font-size: 0.75rem; color: var(--gold); }
 
-/* List view card style */
 .listings-grid.list-view .property-card { display: flex; }
 .listings-grid.list-view .card-image-wrap { width: 260px; height: 180px; flex-shrink: 0; }
 .listings-grid.list-view .card-body { flex: 1; }
 
-/* ========================================
-   LISTINGS PAGE
-   ======================================== */
 .listings-page-header {
   background: var(--bg2); border-bottom: 1px solid var(--border);
   padding: 48px 24px 40px;
@@ -492,7 +454,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
   min-height: calc(100vh - 200px);
 }
 
-/* FILTERS SIDEBAR */
 .filters-sidebar {
   width: 280px; flex-shrink: 0;
   background: var(--bg2); border-right: 1px solid var(--border);
@@ -527,7 +488,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
 .checkbox-group label { font-size: 0.82rem; color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 8px; }
 
-/* LISTINGS CONTENT */
 .listings-content { flex: 1; padding: 24px; min-width: 0; }
 .listings-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .listings-toolbar span { font-size: 0.85rem; color: var(--text2); }
@@ -543,9 +503,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .no-results h3 { font-size: 1.4rem; margin-bottom: 8px; }
 .no-results p { color: var(--text2); margin-bottom: 24px; }
 
-/* ========================================
-   PROPERTY DETAIL MODAL
-   ======================================== */
 .detail-modal-box {
   background: var(--bg2); border: 1px solid var(--border2);
   border-radius: var(--radius-lg); width: 100%; max-width: 900px;
@@ -605,9 +562,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .review-item p { font-size: 0.8rem; color: var(--text2); margin-top: 4px; }
 .review-item .review-stars { font-size: 0.75rem; color: var(--gold); }
 
-/* ========================================
-   MAP PAGE
-   ======================================== */
 .map-page {
   display: flex; height: calc(100vh - 68px); margin-top: 68px;
 }
@@ -676,9 +630,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 }
 .map-tooltip.hidden { display: none; }
 
-/* ========================================
-   FAVORITES & PROFILE
-   ======================================== */
 .page-inner { max-width: 1200px; margin: 0 auto; padding: 100px 24px 60px; }
 .page-inner.narrow { max-width: 600px; }
 .empty-state { text-align: center; padding: 80px 20px; }
@@ -707,9 +658,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 }
 .profile-section h3 { font-size: 1.2rem; margin-bottom: 16px; }
 
-/* ========================================
-   ADMIN DASHBOARD
-   ======================================== */
 .admin-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
 .admin-stat-card {
   background: var(--surface); border: 1px solid var(--border);
@@ -760,9 +708,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .chart-bar-fill.blue { background: var(--accent); }
 .chart-bar-val { font-size: 0.75rem; color: var(--text3); width: 30px; text-align: right; }
 
-/* ========================================
-   MORTGAGE CALCULATOR
-   ======================================== */
 .calc-result {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px; margin-top: 10px;
@@ -772,9 +717,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .calc-item span { font-size: 0.75rem; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
 .calc-item strong { font-size: 1rem; color: var(--gold); font-family: 'Cormorant Garamond', serif; }
 
-/* ========================================
-   COMPARE
-   ======================================== */
 .compare-table { width: 100%; border-collapse: collapse; }
 .compare-table th { padding: 10px 16px; text-align: center; font-size: 0.8rem; background: var(--surface); }
 .compare-table td { padding: 10px 16px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid var(--border); }
@@ -791,14 +733,8 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .compare-tray-item { background: var(--surface); border: 1px solid var(--gold); border-radius: 8px; padding: 5px 10px 5px 12px; font-size: 0.78rem; display: flex; align-items: center; gap: 8px; }
 .compare-tray-item button { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 0.8rem; }
 
-/* ========================================
-   COMPARE NAV BTN
-   ======================================== */
 .compare-nav-btn { position: relative; }
 
-/* ========================================
-   TOAST
-   ======================================== */
 .toast {
   position: fixed; bottom: 24px; right: 24px; z-index: 500;
   background: var(--surface); border: 1px solid var(--border2);
@@ -812,9 +748,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .toast.error { border-left: 3px solid var(--red); }
 .toast.info { border-left: 3px solid var(--gold); }
 
-/* ========================================
-   FOOTER
-   ======================================== */
 .main-footer {
   background: var(--bg2); border-top: 1px solid var(--border);
   padding: 60px 24px 20px;
@@ -832,17 +765,11 @@ input[type="checkbox"] { accent-color: var(--gold); }
 .footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; text-align: center; }
 .footer-bottom p { font-size: 0.78rem; color: var(--text3); }
 
-/* ========================================
-   PAGE SYSTEM
-   ======================================== */
 .page { min-height: calc(100vh - 68px); }
 .page.hidden { display: none; }
 .page-home-pad { padding-top: 68px; }
 #page-home { padding-top: 0; }
 
-/* ========================================
-   RESPONSIVE
-   ======================================== */
 @media (max-width: 1024px) {
   .admin-stats { grid-template-columns: repeat(2,1fr); }
   .analytics-grid { grid-template-columns: 1fr; }
@@ -871,9 +798,6 @@ input[type="checkbox"] { accent-color: var(--gold); }
   .admin-stats { grid-template-columns: 1fr 1fr; }
 }
 
-/* ========================================
-   ESTATECORE LIGHT THEME
-   ======================================== */
 :root {
   --bg: #f4f7fb;
   --bg2: #ffffff;
@@ -1206,16 +1130,11 @@ body {
   }
 }
 
-/* ========================================
-   GLOBAL HIDDEN FIX
-   ======================================== */
 .hidden,
 .mobile-nav.hidden {
   display: none !important;
 }
-/* ========================================
-   HEADER RESTORE FIX
-   ======================================== */
+
 #mainHeader .logo,
 .main-footer .logo {
   font-family: 'DM Sans', sans-serif !important;
@@ -1247,9 +1166,7 @@ body {
   align-items: center;
   gap: 4px;
 }
-/* ========================================
-   DETAIL BACK BUTTON
-   ======================================== */
+
 .detail-back-row {
   position: sticky;
   top: 0;
@@ -1283,9 +1200,7 @@ body {
 .detail-back-row + .detail-gallery {
   border-radius: 0;
 }
-/* ========================================
-   GOOGLE MAP INTERACTION
-   ======================================== */
+
 .map-view.google-map-active {
   background: #e7edf6;
 }
@@ -1341,9 +1256,7 @@ body {
   font-weight: 700;
   padding: 8px 10px;
 }
-/* ========================================
-   PRICE NUMBER READABILITY FIX
-   ======================================== */
+
 .card-price,
 .detail-price,
 .map-listing-price,
@@ -1365,9 +1278,7 @@ body {
   line-height: 1;
   vertical-align: baseline;
 }
-/* ========================================
-   AUTH RESET PAGE
-   ======================================== */
+
 .auth-back-btn {
   margin-top: 10px;
 }
