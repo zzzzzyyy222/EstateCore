@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EstateCore - Property Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAuth()">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchTab('signup')">Register</button>
+    </div>
+    <div id="loginForm">
+      <h2 class="modal-title">Welcome Back</h2>
+      <p class="modal-sub">Sign in with your EstateCore account</p>
+      <input class="form-input" type="email" placeholder="Email address" id="loginEmail"/>
+      <input class="form-input" type="password" placeholder="Password" id="loginPwd"/>
+      <div class="form-row">
+        <label><input type="checkbox"> Remember me</label>
+        <a href="#" class="link-text" onclick="switchTab('reset')">Forgot password?</a>
+      </div>
+      <button class="btn-primary full" onclick="doLogin()">Sign In</button>
+      <p class="modal-sub center">Demo: buyer@demo.com / agent@demo.com / admin@demo.com (any password)</p>
+    </div>
+    <div id="resetForm" class="hidden">
+      <h2 class="modal-title">Reset Password</h2>
+      <p class="modal-sub">Enter your email and we will send a password reset link.</p>
+      <input class="form-input" type="email" placeholder="Email address" id="resetEmail"/>
+      <button class="btn-primary full" onclick="sendResetLink()">Send Reset Link</button>
+      <button class="btn-ghost full auth-back-btn" onclick="switchTab('login')">Back to Sign In</button>
+      <p class="modal-sub center" id="resetMessage"></p>
+    </div>    <div id="signupForm" class="hidden">
+      <h2 class="modal-title">Create Account</h2>
+      <input class="form-input" type="text" placeholder="Full name" id="signupName"/>
+      <input class="form-input" type="email" placeholder="Email address" id="signupEmail"/>
+      <input class="form-input" type="password" placeholder="Password" id="signupPwd"/>
+      <div class="role-select">
+        <label>I am a:</label>
+        <div class="role-btns">
+          <button class="role-btn active" data-role="buyer" onclick="setRole(this,'buyer')">Buyer / Renter</button>
+          <button class="role-btn" data-role="agent" onclick="setRole(this,'agent')">Agent / Owner</button>
+        </div>
+      </div>
+      <button class="btn-primary full" onclick="doSignup()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div id="detailModal" class="modal-overlay hidden">
+  <div class="detail-modal-box">
+    <button class="modal-close white" onclick="closeDetail()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- ADD LISTING MODAL -->
+<div id="addListingModal" class="modal-overlay hidden">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="document.getElementById('addListingModal').classList.add('hidden')">✕</button>
+    <h2 class="modal-title">Add New Listing</h2>
+    <div class="form-grid">
+      <input class="form-input" type="text" placeholder="Property Title" id="newTitle"/>
+      <select class="form-input" id="newType">
+        <option value="">Property Type</option>
+        <option>House</option><option>Condo</option><option>Apartment</option><option>Villa</option><option>Townhouse</option>
+      </select>
+      <input class="form-input" type="number" placeholder="Price (RM)" id="newPrice"/>
+      <input class="form-input" type="text" placeholder="Location / City" id="newLocation"/>
+      <input class="form-input" type="number" placeholder="Bedrooms" id="newBeds"/>
+      <input class="form-input" type="number" placeholder="Bathrooms" id="newBaths"/>
+      <input class="form-input" type="number" placeholder="Size (sq ft)" id="newSize"/>
+      <select class="form-input" id="newListingType">
+        <option value="sale">For Sale</option>
+        <option value="rent">For Rent</option>
+      </select>
+    </div>
+    <textarea class="form-input textarea" placeholder="Description..." id="newDesc"></textarea>
+    <input class="form-input" type="text" placeholder="Amenities (comma separated): Pool, Gym, Parking..." id="newAmenities"/>
+    <button class="btn-primary full" onclick="submitListing()">Publish Listing</button>
+  </div>
+</div>
+
+<!-- SCHEDULE VIEWING MODAL -->
+<div id="scheduleModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('scheduleModal').classList.add('hidden')">✕</button>
+    <h2 class="modal-title">Schedule a Viewing</h2>
+    <p class="modal-sub" id="schedulePropertyName"></p>
+    <input class="form-input" type="text" placeholder="Your Name" id="schedName"/>
+    <input class="form-input" type="email" placeholder="Email" id="schedEmail"/>
+    <input class="form-input" type="tel" placeholder="Phone Number" id="schedPhone"/>
+    <input class="form-input" type="date" id="schedDate"/>
+    <select class="form-input" id="schedTime">
+      <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+      <option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option>
+    </select>
+    <textarea class="form-input textarea small" placeholder="Any special requests?" id="schedNote"></textarea>
+    <button class="btn-primary full" onclick="confirmSchedule()">Confirm Appointment</button>
+  </div>
+</div>
+
+<!-- COMPARE MODAL -->
+<div id="compareModal" class="modal-overlay hidden">
+  <div class="modal-box ultrawide">
+    <button class="modal-close" onclick="document.getElementById('compareModal').classList.add('hidden')">✕</button>
+    <h2 class="modal-title">Compare Properties</h2>
+    <div id="compareContent"></div>
+  </div>
+</div>
+
+<!-- MORTGAGE CALCULATOR -->
+<div id="calcModal" class="modal-overlay hidden">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('calcModal').classList.add('hidden')">✕</button>
+    <h2 class="modal-title">Mortgage Calculator</h2>
+    <p class="modal-sub">Estimate your monthly payments</p>
+    <label class="form-label">Property Price (RM)</label>
+    <input class="form-input" type="number" id="calcPrice" value="500000" oninput="calcMortgage()"/>
+    <label class="form-label">Down Payment (%)</label>
+    <input class="form-input" type="range" id="calcDown" min="5" max="50" value="10" oninput="calcMortgage()"/>
+    <div class="range-value" id="calcDownVal">10%</div>
+    <label class="form-label">Loan Term (Years)</label>
+    <select class="form-input" id="calcTerm" onchange="calcMortgage()">
+      <option>10</option><option>15</option><option selected>20</option><option>25</option><option>30</option>
+    </select>
+    <label class="form-label">Annual Interest Rate (%)</label>
+    <input class="form-input" type="number" id="calcRate" value="4.5" step="0.1" oninput="calcMortgage()"/>
+    <div class="calc-result" id="calcResult">
+      <div class="calc-item"><span>Monthly Payment</span><strong id="calcMonthly">RM 2,846</strong></div>
+      <div class="calc-item"><span>Loan Amount</span><strong id="calcLoan">RM 450,000</strong></div>
+      <div class="calc-item"><span>Total Interest</span><strong id="calcInterest">RM 233,040</strong></div>
+      <div class="calc-item"><span>Total Cost</span><strong id="calcTotal">RM 683,040</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER / NAV -->
+<header id="mainHeader">
+  <div class="header-inner">
+    <div class="logo">Estate<span>Core</span></div>
+    <nav class="main-nav">
+      <a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+      <a href="#" onclick="showPage('listings')" class="nav-link" data-page="listings">Listings</a>
+      <a href="#" onclick="showPage('map')" class="nav-link" data-page="map">Map Search</a>
+      <a href="#" onclick="document.getElementById('calcModal').classList.remove('hidden');calcMortgage()" class="nav-link">Calculator</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-ghost" id="favBtn" onclick="showPage('favorites')">♡ Saved <span id="favCount">0</span></button>
+      <button class="btn-ghost compare-nav-btn" onclick="openCompare()">⇄ Compare <span id="compareCount">0</span></button>
+      <div id="userMenu" class="user-menu hidden">
+        <div class="user-avatar" onclick="toggleUserDropdown()" id="userAvatar">J</div>
+        <div class="user-dropdown hidden" id="userDropdown">
+          <div class="dropdown-name" id="dropdownName">John</div>
+          <div class="dropdown-role" id="dropdownRole">Buyer</div>
+          <hr/>
+          <a href="#" onclick="showPage('profile')">My Profile</a>
+          <a href="#" onclick="showPage('favorites')">Saved Properties</a>
+          <a href="#" onclick="document.getElementById('addListingModal').classList.remove('hidden')" class="agent-only hidden">Add Listing</a>
+          <hr/>
+          <a href="#" onclick="doLogout()" class="logout-link">Sign Out</a>
+        </div>
+      </div>
+      <button class="btn-primary" id="loginBtn" onclick="openAuth()">Sign In</button>
+    </div>
+    <button class="hamburger" onclick="toggleMobileNav()">☰</button>
+  </div>
+  <div class="mobile-nav hidden" id="mobileNav">
+    <a href="#" onclick="showPage('home');toggleMobileNav()">Home</a>
+    <a href="#" onclick="showPage('listings');toggleMobileNav()">Listings</a>
+    <a href="#" onclick="showPage('map');toggleMobileNav()">Map Search</a>
+    <a href="#" onclick="document.getElementById('calcModal').classList.remove('hidden');calcMortgage();toggleMobileNav()">Calculator</a>
+  </div>
+</header>
+
+<!-- PAGES -->
+<main id="appMain">
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="hero-orb orb1"></div>
+        <div class="hero-orb orb2"></div>
+        <div class="hero-grid"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">Find homes with EstateCore</div>
+        <h1 class="hero-title">Find Your <em>Next</em><br/>Property With Ease</h1>
+        <p class="hero-sub">Search bright homes, compare listings, schedule viewings, and connect with trusted agents.</p>
+        <div class="hero-search-bar">
+          <div class="search-field">
+            <span class="search-icon">⌖</span>
+            <input type="text" placeholder="City, neighbourhood, or postcode..." id="heroSearch" oninput="updateHeroSearch()" onkeydown="if(event.key==='Enter')heroSearchGo()"/>
+          </div>
+          <select class="search-select" id="heroType">
+            <option value="">All Types</option>
+            <option>House</option><option>Condo</option><option>Apartment</option><option>Villa</option>
+          </select>
+          <select class="search-select" id="heroPurpose">
+            <option value="">Buy / Rent</option>
+            <option value="sale">For Sale</option>
+            <option value="rent">For Rent</option>
+          </select>
+          <button class="btn-accent" onclick="heroSearchGo()">Search</button>
+        </div>
+        <div class="hero-tags">
+          <span onclick="quickSearch('Kuala Lumpur')">Kuala Lumpur</span>
+          <span onclick="quickSearch('Petaling Jaya')">Petaling Jaya</span>
+          <span onclick="quickSearch('Johor Bahru')">Johor Bahru</span>
+          <span onclick="quickSearch('Penang')">Penang</span>
+          <span onclick="quickSearch('Subang')">Subang</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-bar">
+      <div class="stat-item"><strong id="statTotal">0</strong><span>Properties Listed</span></div>
+      <div class="stat-item"><strong>2,400+</strong><span>Happy Clients</span></div>
+      <div class="stat-item"><strong>120+</strong><span>Verified Agents</span></div>
+      <div class="stat-item"><strong>15+</strong><span>Cities Covered</span></div>
+    </section>
+
+    <section class="section-pad">
+      <div class="section-header">
+        <h2 class="section-title">Popular <em>Properties</em></h2>
+        <a href="#" class="view-all" onclick="showPage('listings')">View all →</a>
+      </div>
+      <div class="listings-grid" id="featuredGrid"></div>
+    </section>
+
+    <section class="section-pad dark-section">
+      <div class="section-header">
+        <h2 class="section-title light">Best <em>Recommendations</em></h2>
+        <span class="section-badge">AI Picks</span>
+      </div>
+      <div class="listings-grid" id="recommendedGrid"></div>
+    </section>
+
+    <section class="section-pad">
+      <div class="section-header">
+        <h2 class="section-title">Browse by <em>Type</em></h2>
+      </div>
+      <div class="type-grid">
+        <div class="type-card" onclick="filterByType('House')">
+          <div class="type-icon">🏠</div>
+          <div class="type-name">House</div>
+          <div class="type-count" id="typeHouse">0 listings</div>
+        </div>
+        <div class="type-card" onclick="filterByType('Condo')">
+          <div class="type-icon">🏢</div>
+          <div class="type-name">Condo</div>
+          <div class="type-count" id="typeCondo">0 listings</div>
+        </div>
+        <div class="type-card" onclick="filterByType('Apartment')">
+          <div class="type-icon">🏬</div>
+          <div class="type-name">Apartment</div>
+          <div class="type-count" id="typeApartment">0 listings</div>
+        </div>
+        <div class="type-card" onclick="filterByType('Villa')">
+          <div class="type-icon">🏡</div>
+          <div class="type-name">Villa</div>
+          <div class="type-count" id="typeVilla">0 listings</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-inner">
+        <h2>Are You an Agent or Property Owner?</h2>
+        <p>List your property on EstateCore and reach qualified buyers and renters.</p>
+        <button class="btn-accent large" onclick="openAuth()">Get Started Free</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- LISTINGS PAGE -->
+  <div id="page-listings" class="page hidden">
+    <div class="listings-page-header">
+      <h1>Property <em>Listings</em></h1>
+      <p id="listingsCount">Loading properties...</p>
+    </div>
+    <div class="listings-layout">
+      <!-- FILTERS SIDEBAR -->
+      <aside class="filters-sidebar">
+        <div class="filter-header">
+          <span>Filters</span>
+          <button onclick="resetFilters()" class="reset-btn">Reset</button>
+        </div>
+
+        <div class="filter-group">
+          <label>Search Keywords</label>
+          <input class="form-input small" type="text" placeholder="Keywords..." id="filterKeyword" oninput="applyFilters()"/>
+        </div>
+        <div class="filter-group">
+          <label>Location</label>
+          <input class="form-input small" type="text" placeholder="City or postcode" id="filterLocation" oninput="applyFilters()"/>
+        </div>
+        <div class="filter-group">
+          <label>Listing Type</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="toggleAll" onclick="setListingType('',this)">All</button>
+            <button class="toggle-btn" id="toggleSale" onclick="setListingType('sale',this)">Sale</button>
+            <button class="toggle-btn" id="toggleRent" onclick="setListingType('rent',this)">Rent</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Property Type</label>
+          <select class="form-input small" id="filterType" onchange="applyFilters()">
+            <option value="">All Types</option>
+            <option>House</option><option>Condo</option><option>Apartment</option><option>Villa</option><option>Townhouse</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Price Range (RM)</label>
+          <div class="range-row">
+            <input class="form-input small" type="number" placeholder="Min" id="filterMinPrice" oninput="applyFilters()"/>
+            <span>–</span>
+            <input class="form-input small" type="number" placeholder="Max" id="filterMaxPrice" oninput="applyFilters()"/>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Bedrooms</label>
+          <div class="pill-group" id="bedroomPills">
+            <button class="pill active" onclick="setBeds(0,this)">Any</button>
+            <button class="pill" onclick="setBeds(1,this)">1+</button>
+            <button class="pill" onclick="setBeds(2,this)">2+</button>
+            <button class="pill" onclick="setBeds(3,this)">3+</button>
+            <button class="pill" onclick="setBeds(4,this)">4+</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Bathrooms</label>
+          <div class="pill-group" id="bathroomPills">
+            <button class="pill active" onclick="setBaths(0,this)">Any</button>
+            <button class="pill" onclick="setBaths(1,this)">1+</button>
+            <button class="pill" onclick="setBaths(2,this)">2+</button>
+            <button class="pill" onclick="setBaths(3,this)">3+</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Amenities</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" value="Pool" onchange="applyFilters()"> Swimming Pool</label>
+            <label><input type="checkbox" value="Gym" onchange="applyFilters()"> Gym / Fitness</label>
+            <label><input type="checkbox" value="Parking" onchange="applyFilters()"> Parking</label>
+            <label><input type="checkbox" value="Security" onchange="applyFilters()"> 24hr Security</label>
+            <label><input type="checkbox" value="Furnished" onchange="applyFilters()"> Fully Furnished</label>
+            <label><input type="checkbox" value="Garden" onchange="applyFilters()"> Garden</label>
+          </div>
+        </div>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select class="form-input small" id="filterSort" onchange="applyFilters()">
+            <option value="default">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="newest">Newest First</option>
+            <option value="size">Largest First</option>
+          </select>
+        </div>
+      </aside>
+
+      <!-- LISTINGS CONTENT -->
+      <div class="listings-content">
+        <div class="listings-toolbar">
+          <span id="filteredCount">24 properties found</span>
+          <div class="view-toggles">
+            <button class="view-btn active" id="gridViewBtn" onclick="setView('grid',this)">⊞ Grid</button>
+            <button class="view-btn" id="listViewBtn" onclick="setView('list',this)">☰ List</button>
+          </div>
+        </div>
+        <div class="listings-grid" id="mainListingsGrid"></div>
+        <div class="no-results hidden" id="noResults">
+          <div class="no-results-icon">🔍</div>
+          <h3>No properties found</h3>
+          <p>Try adjusting your filters or search terms</p>
+          <button class="btn-primary" onclick="resetFilters()">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAP PAGE -->
+  <div id="page-map" class="page hidden">
+    <div class="map-page">
+      <div class="map-sidebar">
+        <div class="map-search-bar">
+          <input type="text" placeholder="Search location..." id="mapSearch" class="form-input" oninput="filterMapPins()"/>
+          <select class="form-input small" id="mapTypeFilter" onchange="filterMapPins()">
+            <option value="">All Types</option>
+            <option>House</option><option>Condo</option><option>Apartment</option><option>Villa</option>
+          </select>
+        </div>
+        <div id="mapListingsList" class="map-listings-list"></div>
+      </div>
+      <div class="map-container">
+        <div class="map-view" id="mapView">
+          <div class="map-bg-text">Interactive Map</div>
+          <div id="mapPinsContainer"></div>
+          <div class="map-legend">
+            <span class="legend-dot sale"></span> For Sale
+            <span class="legend-dot rent"></span> For Rent
+          </div>
+          <div class="map-tooltip hidden" id="mapTooltip"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAVORITES PAGE -->
+  <div id="page-favorites" class="page hidden">
+    <div class="page-inner">
+      <div class="section-header">
+        <h1>Saved <em>Properties</em></h1>
+        <div class="compare-actions">
+          <button class="btn-ghost" id="compareBtn" onclick="openCompare()" style="display:none">⇄ Compare Selected</button>
+        </div>
+      </div>
+      <div class="listings-grid" id="favoritesGrid"></div>
+      <div class="empty-state hidden" id="emptyFav">
+        <div class="empty-icon">♡</div>
+        <h3>No saved properties yet</h3>
+        <p>Browse listings and click the heart to save properties</p>
+        <button class="btn-primary" onclick="showPage('listings')">Browse Listings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="page-profile" class="page hidden">
+    <div class="page-inner narrow">
+      <h1>My <em>Profile</em></h1>
+      <div class="profile-card">
+        <div class="profile-avatar-large" id="profileAvatar">J</div>
+        <div class="profile-info">
+          <h2 id="profileName">John Doe</h2>
+          <p id="profileEmail">john@example.com</p>
+          <span class="role-badge" id="profileRole">Buyer</span>
+        </div>
+      </div>
+      <div class="profile-section">
+        <h3>Account Details</h3>
+        <input class="form-input" type="text" placeholder="Full Name" id="editName"/>
+        <input class="form-input" type="email" placeholder="Email" id="editEmail"/>
+        <input class="form-input" type="tel" placeholder="Phone Number" id="editPhone"/>
+        <select class="form-input" id="editPreference">
+          <option>Looking to buy</option>
+          <option>Looking to rent</option>
+          <option>Investor</option>
+        </select>
+        <button class="btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+
+</main>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast hidden"></div>
+
+<!-- COMPARE TRAY -->
+<div class="compare-tray hidden" id="compareTray">
+  <div class="compare-tray-inner">
+    <span class="compare-tray-label">Compare:</span>
+    <div id="compareTrayItems"></div>
+    <button class="btn-accent small" onclick="openCompare()">Compare Now</button>
+    <button class="btn-ghost small" onclick="clearCompare()">Clear</button>
+  </div>
+</div>
+
+<footer class="main-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Estate<span>Core</span></div>
+      <p>A clean property platform for buying, renting, and managing listings</p>
+    </div>
+    <div class="footer-links">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="footer-links">
+      <h4>Support</h4>
+      <a href="#">Help Center</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy</a>
+    </div>
+    <div class="footer-links">
+      <h4>Explore</h4>
+      <a href="#" onclick="showPage('listings')">All Listings</a>
+      <a href="#" onclick="showPage('map')">Map Search</a>
+      <a href="#" onclick="document.getElementById('calcModal').classList.remove('hidden');calcMortgage()">Calculator</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 EstateCore. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="/config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
