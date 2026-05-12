@@ -10,7 +10,6 @@
 </head>
 <body>
 
-<!-- AUTH MODAL -->
 <div id="authModal" class="modal-overlay hidden">
   <div class="modal-box">
     <button class="modal-close" onclick="closeAuth()">✕</button>
@@ -54,7 +53,6 @@
   </div>
 </div>
 
-<!-- PROPERTY DETAIL MODAL -->
 <div id="detailModal" class="modal-overlay hidden">
   <div class="detail-modal-box">
     <button class="modal-close white" onclick="closeDetail()">✕</button>
@@ -62,7 +60,6 @@
   </div>
 </div>
 
-<!-- ADD LISTING MODAL -->
 <div id="addListingModal" class="modal-overlay hidden">
   <div class="modal-box wide">
     <button class="modal-close" onclick="document.getElementById('addListingModal').classList.add('hidden')">✕</button>
@@ -89,7 +86,6 @@
   </div>
 </div>
 
-<!-- SCHEDULE VIEWING MODAL -->
 <div id="scheduleModal" class="modal-overlay hidden">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('scheduleModal').classList.add('hidden')">✕</button>
@@ -108,7 +104,6 @@
   </div>
 </div>
 
-<!-- COMPARE MODAL -->
 <div id="compareModal" class="modal-overlay hidden">
   <div class="modal-box ultrawide">
     <button class="modal-close" onclick="document.getElementById('compareModal').classList.add('hidden')">✕</button>
@@ -117,7 +112,6 @@
   </div>
 </div>
 
-<!-- MORTGAGE CALCULATOR -->
 <div id="calcModal" class="modal-overlay hidden">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('calcModal').classList.add('hidden')">✕</button>
@@ -143,7 +137,6 @@
   </div>
 </div>
 
-<!-- HEADER / NAV -->
 <header id="mainHeader">
   <div class="header-inner">
     <div class="logo">Estate<span>Core</span></div>
@@ -181,10 +174,8 @@
   </div>
 </header>
 
-<!-- PAGES -->
 <main id="appMain">
 
-  <!-- HOME PAGE -->
   <div id="page-home" class="page active">
     <section class="hero">
       <div class="hero-bg">
@@ -282,7 +273,6 @@
     </section>
   </div>
 
-  <!-- LISTINGS PAGE -->
   <div id="page-listings" class="page hidden">
     <div class="listings-page-header">
       <h1>Property <em>Listings</em></h1>
@@ -369,7 +359,6 @@
         </div>
       </aside>
 
-      <!-- LISTINGS CONTENT -->
       <div class="listings-content">
         <div class="listings-toolbar">
           <span id="filteredCount">24 properties found</span>
@@ -389,7 +378,6 @@
     </div>
   </div>
 
-  <!-- MAP PAGE -->
   <div id="page-map" class="page hidden">
     <div class="map-page">
       <div class="map-sidebar">
@@ -416,7 +404,6 @@
     </div>
   </div>
 
-  <!-- FAVORITES PAGE -->
   <div id="page-favorites" class="page hidden">
     <div class="page-inner">
       <div class="section-header">
@@ -435,7 +422,6 @@
     </div>
   </div>
 
-  <!-- PROFILE PAGE -->
   <div id="page-profile" class="page hidden">
     <div class="page-inner narrow">
       <h1>My <em>Profile</em></h1>
@@ -465,10 +451,8 @@
 
 </main>
 
-<!-- TOAST NOTIFICATION -->
 <div id="toast" class="toast hidden"></div>
 
-<!-- COMPARE TRAY -->
 <div class="compare-tray hidden" id="compareTray">
   <div class="compare-tray-inner">
     <span class="compare-tray-label">Compare:</span>
